@@ -1,14 +1,15 @@
 import 'package:chat_app_firebase_riverpod/features/chat/controller/chat_controller.dart';
 import 'package:chat_app_firebase_riverpod/providers/firebase_providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChatPage extends ConsumerStatefulWidget {
+class ChatViewScreen extends HookConsumerWidget {
   final String userId;
   final String userName;
   final String userEmail;
 
-  const ChatPage({
+  const ChatViewScreen({
     Key? key,
     required this.userId,
     required this.userName,
@@ -16,40 +17,24 @@ class ChatPage extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  ConsumerState<ChatPage> createState() => _ChatPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final messageController = useTextEditingController();
+    final isShowSend = useState(false);
 
-class _ChatPageState extends ConsumerState<ChatPage> {
-  final TextEditingController messageController = TextEditingController();
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    messageController.dispose();
-  }
-
-  void sendMessage(String userId) {
-    if (messageController.text.isEmpty) {
-      return;
-    }
-
-    ref
-        .read(chatControllerProvider.notifier)
-        .sendMessage(userId, messageController.text);
-
-    messageController.clear();
-  }
-
-  bool isShowSend = false;
-
-  @override
-  Widget build(BuildContext context) {
     final currentUser = ref.read(authInstanceProvider);
 
-    final chatService = ref
-        .watch(chatServiceProvider)
-        .getMessages(currentUser!.uid, widget.userId);
+    final chatService =
+        ref.watch(chatServiceProvider).getMessages(currentUser!.uid, userId);
+
+    final sendMessage = useCallback(() {
+      if (messageController.text.isEmpty) {
+        return;
+      }
+      ref
+          .read(chatControllerProvider.notifier)
+          .sendMessage(userId, messageController.text);
+      messageController.clear();
+    }, [messageController, userId]);
 
     return Scaffold(
       appBar: AppBar(
@@ -57,10 +42,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           leading: const CircleAvatar(
             child: Icon(Icons.person),
           ),
-          title: Text(widget.userName,
+          title: Text(userName,
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          subtitle: Text(widget.userEmail),
+          subtitle: Text(userEmail),
         ),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.call)),
@@ -166,18 +151,12 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                       ),
                     ),
                     onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty || value == '') {
-                          isShowSend = false;
-                        } else {
-                          isShowSend = true;
-                        }
-                      });
+                      isShowSend.value = value.isNotEmpty;
                     },
                   ),
                 ),
               ),
-              (!isShowSend)
+              !isShowSend.value
                   ? Row(
                       children: [
                         IconButton(
@@ -188,7 +167,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                     )
                   : IconButton(
                       onPressed: () {
-                        sendMessage(widget.userId);
+                        sendMessage();
                       },
                       icon: const CircleAvatar(
                         backgroundColor: Colors.green,
@@ -201,41 +180,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           )
         ],
       ),
-      // bottomNavigationBar: Row(
-      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //   crossAxisAlignment: CrossAxisAlignment.center,
-      //   children: [
-      //     IconButton(onPressed: () {}, icon: const Icon(Icons.attach_file)),
-      //     Expanded(
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(8.0),
-      //         child: TextFormField(
-      //           controller: messageController,
-      //           maxLines: null,
-      //           keyboardType: TextInputType.multiline,
-      //           decoration: InputDecoration(
-      //             filled: true,
-      //             fillColor: Colors.grey[200],
-      //             hintText: 'Write your message',
-      //             border: OutlineInputBorder(
-      //               borderRadius: BorderRadius.circular(20.0),
-      //               borderSide: BorderSide.none,
-      //             ),
-      //             suffixIcon: IconButton(
-      //               onPressed: () {},
-      //               icon: const Icon(Icons.file_copy),
-      //             ),
-      //           ),
-      //           onFieldSubmitted: (value) {
-      //             print(value);
-      //           },
-      //         ),
-      //       ),
-      //     ),
-      //     IconButton(onPressed: () {}, icon: const Icon(Icons.camera)),
-      //     IconButton(onPressed: () {}, icon: const Icon(Icons.mic)),
-      //   ],
-      // ),
     );
   }
 }

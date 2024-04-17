@@ -1,7 +1,7 @@
 import 'package:chat_app_firebase_riverpod/features/auth/ui/get_started_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/ui/login_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/ui/register_screen.dart';
-import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_page.dart';
+import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_view_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/home/ui/home_screen.dart';
 import 'package:chat_app_firebase_riverpod/providers/firebase_providers.dart';
 import 'package:chat_app_firebase_riverpod/routing/routes.dart';
@@ -78,7 +78,7 @@ GoRouter goRouter(GoRouterRef ref) {
                 final String userEmail =
                     extras?['userEmail'] as String? ?? 'defaultUserEmail';
 
-                return ChatPage(
+                return ChatViewScreen(
                     userId: userId, userName: userName, userEmail: userEmail);
               },
             ),

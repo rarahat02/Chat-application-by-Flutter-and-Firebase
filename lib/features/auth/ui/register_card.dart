@@ -2,70 +2,58 @@ import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_controller.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class RegisterCard extends ConsumerStatefulWidget {
-  const RegisterCard({super.key});
-
-  @override
-  ConsumerState<RegisterCard> createState() => _RegisterCardState();
-}
-
-class _RegisterCardState extends ConsumerState<RegisterCard> {
-  final _emailController = TextEditingController();
-  final _nameController = TextEditingController();
-  final _paswordController = TextEditingController();
-
-  final _nameFocusNode = FocusNode();
-  final _emailFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
-  final _confirmpasswordFocusNode = FocusNode();
-
-  final _formKey = GlobalKey<FormState>();
+class RegisterCard extends HookConsumerWidget {
+  const RegisterCard({Key? key}) : super(key: key);
 
   @override
-  void dispose() {
-    _emailController.dispose();
-    _nameFocusNode.dispose();
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    _paswordController.dispose();
-    _nameController.dispose();
-    _confirmpasswordFocusNode.dispose();
-    super.dispose();
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final emailController = useTextEditingController();
+    final nameController = useTextEditingController();
+    final passwordController = useTextEditingController();
+    final confirmPasswordController = useTextEditingController();
 
-  void handleSubmit(String name, String email, String password) {
-    final validate = _formKey.currentState!.validate();
+    final nameFocusNode = useFocusNode();
+    final emailFocusNode = useFocusNode();
+    final passwordFocusNode = useFocusNode();
+    final confirmPasswordFocusNode = useFocusNode();
 
-    if (!validate) {
-      return;
+    final formKey = useMemoized(() => GlobalKey<FormState>(), []);
+
+    void performSignup(String name, String email, String password) {
+      ref.read(authControllerProvider.notifier).signup(name, email, password);
     }
 
-    //  final auth reg service
-    ref.read(authControllerProvider.notifier).signup(name, email, password);
-  }
+    final handleSubmit = useCallback(() {
+      if (formKey.currentState?.validate() ?? false) {
+        performSignup(
+          nameController.text,
+          emailController.text,
+          passwordController.text,
+        );
+      }
+    }, [nameController, emailController, passwordController]);
 
-  @override
-  Widget build(BuildContext context) {
-    ref.listen<AuthState>(authControllerProvider, (previous, next) {
+    ref.listen<AuthState>(authControllerProvider, (_, next) {
       if (next is AuthStateError) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(next.error),
-        ));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(next.error)));
       } else if (next is AuthStateSuccess) {
-        context.pop();
+        Navigator.of(context).pop();
       }
     });
+
     final size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: Card(
         color: cardColor,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -73,16 +61,16 @@ class _RegisterCardState extends ConsumerState<RegisterCard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextFormField(
-                        controller: _nameController,
+                        controller: nameController,
                         decoration: const InputDecoration(
                             labelText: 'Your name',
                             labelStyle:
                                 TextStyle(fontSize: 16, color: Colors.green),
                             hintText: 'Enter your Name'),
-                        focusNode: _nameFocusNode,
+                        focusNode: nameFocusNode,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
-                          FocusScope.of(context).requestFocus(_emailFocusNode);
+                          FocusScope.of(context).requestFocus(emailFocusNode);
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -92,17 +80,17 @@ class _RegisterCardState extends ConsumerState<RegisterCard> {
                         },
                       ),
                       TextFormField(
-                        controller: _emailController,
+                        controller: emailController,
                         decoration: const InputDecoration(
                             labelText: 'Your Email',
                             labelStyle:
                                 TextStyle(fontSize: 16, color: Colors.green),
                             hintText: 'Enter your Email'),
-                        focusNode: _emailFocusNode,
+                        focusNode: emailFocusNode,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
                           FocusScope.of(context)
-                              .requestFocus(_passwordFocusNode);
+                              .requestFocus(passwordFocusNode);
                         },
                         validator: (value) {
                           if (value == null || !value.contains('@')) {
@@ -112,20 +100,20 @@ class _RegisterCardState extends ConsumerState<RegisterCard> {
                         },
                       ),
                       TextFormField(
-                        controller: _paswordController,
+                        controller: passwordController,
                         decoration: const InputDecoration(
                             labelText: 'Password',
                             labelStyle:
                                 TextStyle(fontSize: 16, color: Colors.green),
                             hintText: 'Enter your Password'),
                         obscureText: true,
-                        focusNode: _passwordFocusNode,
+                        focusNode: passwordFocusNode,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
                           // handleSubmit(
                           //     _emailController.text, _paswordController.text);
                           FocusScope.of(context)
-                              .requestFocus(_confirmpasswordFocusNode);
+                              .requestFocus(confirmPasswordFocusNode);
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -141,18 +129,17 @@ class _RegisterCardState extends ConsumerState<RegisterCard> {
                                 TextStyle(fontSize: 16, color: Colors.green),
                             hintText: 'Confirm Password'),
                         obscureText: true,
-                        focusNode: _confirmpasswordFocusNode,
+                        focusNode: confirmPasswordFocusNode,
                         textInputAction: TextInputAction.done,
                         onFieldSubmitted: (_) {
-                          handleSubmit(_nameController.text,
-                              _emailController.text, _paswordController.text);
+                          handleSubmit();
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'please Enter a valid password';
                           }
-                          if (value != _paswordController.text) {
-                            return 'Inavlid Password, please check again';
+                          if (value != passwordController.text) {
+                            return 'Invalid Password, please check again';
                           }
                           return null;
                         },
@@ -171,8 +158,7 @@ class _RegisterCardState extends ConsumerState<RegisterCard> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: size.width * 0.3, vertical: 10),
                           ),
-                          onPressed: () => handleSubmit(_nameController.text,
-                              _emailController.text, _paswordController.text),
+                          onPressed: () => handleSubmit(),
                           child: const Text(
                             'Create an account',
                             textAlign: TextAlign.center,

@@ -1,3 +1,4 @@
+import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsBody extends StatelessWidget {
@@ -6,9 +7,9 @@ class NotificationsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue,
+      color: backgroundColor,
       child: const Center(
-        child: Text('This is Notifications section'),
+        child: Text('No Notifications!'),
       ),
     );
   }

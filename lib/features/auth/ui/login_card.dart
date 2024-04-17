@@ -2,155 +2,106 @@ import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_controller.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class LoginCard extends ConsumerStatefulWidget {
-  const LoginCard({
-    super.key,
-  });
+class LoginCard extends HookConsumerWidget {
+  const LoginCard({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<LoginCard> createState() => _LoginCardState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final emailController = useTextEditingController();
+    final passwordController = useTextEditingController();
 
-class _LoginCardState extends ConsumerState<LoginCard> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+    final emailFocusNode = useFocusNode();
+    final passwordFocusNode = useFocusNode();
 
-  final _emailFocusNode = FocusNode();
-  final _passwordFocusNode = FocusNode();
+    final formKey = useMemoized(() => GlobalKey<FormState>(), []);
 
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _emailFocusNode.dispose();
-    _passwordFocusNode.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  void handleSubmit(String email, String password) {
-    final validate = _formKey.currentState!.validate();
-
-    if (!validate) {
-      return;
+    void performLogin(String email, String password) {
+      ref.read(authControllerProvider.notifier).login(email, password);
     }
 
-    // final authService
-    ref.read(authControllerProvider.notifier).login(email, password);
-  }
+    final handleSubmit = useCallback(() {
+      if (formKey.currentState?.validate() ?? false) {
+        performLogin(emailController.text, passwordController.text);
+      }
+    }, [emailController, passwordController]);
 
-  @override
-  Widget build(BuildContext context) {
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
       if (next is AuthStateError) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(next.error),
-        ));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(next.error)));
       } else if (next is AuthStateSuccess) {
-        context.pop();
+        Navigator.of(context).pop();
       }
     });
 
     final size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: Card(
         color: cardColor,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextFormField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                            labelText: 'Your Email',
-                            labelStyle:
-                                TextStyle(fontSize: 16, color: Colors.green),
-                            hintText: 'Enter your Email'),
-                        focusNode: _emailFocusNode,
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (_) {
-                          FocusScope.of(context)
-                              .requestFocus(_passwordFocusNode);
-                        },
-                        validator: (value) {
-                          if (value == null || !value.contains('@')) {
-                            return 'please Enter a valid email';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                            labelText: 'Password',
-                            labelStyle:
-                                TextStyle(fontSize: 16, color: Colors.green),
-                            hintText: 'Enter your Password'),
-                        obscureText: true,
-                        focusNode: _passwordFocusNode,
-                        textInputAction: TextInputAction.done,
-                        onFieldSubmitted: (_) {
-                          handleSubmit(
-                              _emailController.text, _passwordController.text);
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'please Enter a valid password';
-                          }
-                          return null;
-                        },
-                      ),
-                    ],
+            key: formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: emailController,
+                  focusNode: emailFocusNode,
+                  decoration: const InputDecoration(
+                      labelText: 'Your Email',
+                      labelStyle: TextStyle(fontSize: 16, color: Colors.green),
+                      hintText: 'Enter your Email'),
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) => passwordFocusNode.requestFocus(),
+                  validator: (value) => (value == null || !value.contains('@'))
+                      ? 'Please enter a valid email'
+                      : null,
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  focusNode: passwordFocusNode,
+                  decoration: const InputDecoration(
+                      labelText: 'Password',
+                      labelStyle: TextStyle(fontSize: 16, color: Colors.green),
+                      hintText: 'Enter your Password'),
+                  obscureText: true,
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (_) => handleSubmit(),
+                  validator: (value) => (value == null || value.isEmpty)
+                      ? 'Please enter a valid password'
+                      : null,
+                ),
+                const SizedBox(height: 100),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade100, // Example color
+                    padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.3, vertical: 10),
                   ),
-                  const SizedBox(
-                    height: 100,
+                  onPressed: handleSubmit,
+                  child: const Text(
+                    'Log in',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black), // Example text style
                   ),
-                  SizedBox(
-                    child: Column(
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: backgroundColor,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.3, vertical: 10),
-                          ),
-                          onPressed: () => handleSubmit(
-                              _emailController.text, _passwordController.text),
-                          child: const Text(
-                            'Log in',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: textColor),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Forgot password?',
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

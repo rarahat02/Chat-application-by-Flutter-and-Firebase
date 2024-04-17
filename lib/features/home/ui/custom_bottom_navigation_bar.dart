@@ -22,7 +22,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         icon: Icon(
           FontAwesomeIcons.commentDots,
         ),
-        title: 'Message'),
+        title: 'Chat'),
     const TabItem(icon: Icon(Icons.notifications), title: 'Notifications')
   ];
 

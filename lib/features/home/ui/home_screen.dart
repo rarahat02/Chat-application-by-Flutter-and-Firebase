@@ -1,5 +1,5 @@
 import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
-import 'package:chat_app_firebase_riverpod/features/chat/ui/messages_body.dart';
+import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_list_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/home/ui/custom_bottom_navigation_bar.dart';
 import 'package:chat_app_firebase_riverpod/features/notification/ui/notifications_body.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int pageIndex = 0;
 
   final List _screenBody = const [
-    MessagesBody(),
+    ChatListScreen(),
     NotificationsBody(),
   ];
 
@@ -34,11 +34,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: _screenBody[pageIndex],
     );
-
-    // return const Scaffold(
-    //   backgroundColor: Colors.black,
-    //   appBar: CustomAppBar(),
-    //   body: MessagesBody(),
-    // );
   }
 }
