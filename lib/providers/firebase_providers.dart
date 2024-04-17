@@ -4,17 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final firebaseAuthServiceProvider = Provider.autoDispose<AuthService>(
+final authServiceProvider = Provider.autoDispose<AuthService>(
     (ref) => AuthService(FirebaseAuth.instance, FirebaseFirestore.instance));
 
-final firebaseAuthStateProvider = StreamProvider.autoDispose<User?>(
-    (ref) => ref.read(firebaseAuthServiceProvider).authStateChange);
+final authStateProvider = StreamProvider<User?>(
+    (ref) => ref.read(authServiceProvider).authStateChange);
 
-final firebaseFirestoreStateProvier = StreamProvider.autoDispose(
+final firestoreStateProvider = StreamProvider.autoDispose(
     (ref) => FirebaseFirestore.instance.collection('USER').snapshots());
 
-final firebaseAuthInstanceProvider =
+final authInstanceProvider =
     Provider.autoDispose((ref) => FirebaseAuth.instance.currentUser);
 
-final firebaseChatServiceProvider = Provider.autoDispose(
+final chatServiceProvider = Provider.autoDispose(
     (ref) => ChatService(FirebaseAuth.instance, FirebaseFirestore.instance));

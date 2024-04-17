@@ -3,8 +3,6 @@ import 'package:chat_app_firebase_riverpod/features/auth/ui/login_card.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
-  static const routeName = '/login';
-
   const LoginScreen({super.key});
 
   @override

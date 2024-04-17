@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
-  static const routeName = '/chat';
+  final String userId;
+  final String userName;
+  final String userEmail;
 
   const ChatPage({
-    super.key,
-  });
+    Key? key,
+    required this.userId,
+    required this.userName,
+    required this.userEmail,
+  }) : super(key: key);
 
   @override
   ConsumerState<ChatPage> createState() => _ChatPageState();
@@ -40,17 +45,11 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    final userName = args['userName'] as String;
-    final userEmail = args['userEmail'] as String;
-    final userId = args['userId'] as String;
-
-    final currentUser = ref.read(firebaseAuthInstanceProvider);
+    final currentUser = ref.read(authInstanceProvider);
 
     final chatService = ref
-        .watch(firebaseChatServiceProvider)
-        .getMessages(currentUser!.uid, userId);
+        .watch(chatServiceProvider)
+        .getMessages(currentUser!.uid, widget.userId);
 
     return Scaffold(
       appBar: AppBar(
@@ -58,10 +57,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           leading: const CircleAvatar(
             child: Icon(Icons.person),
           ),
-          title: Text(userName,
+          title: Text(widget.userName,
               style:
                   const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          subtitle: Text(userEmail),
+          subtitle: Text(widget.userEmail),
         ),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.call)),
@@ -189,7 +188,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                     )
                   : IconButton(
                       onPressed: () {
-                        sendMessage(userId);
+                        sendMessage(widget.userId);
                       },
                       icon: const CircleAvatar(
                         backgroundColor: Colors.green,

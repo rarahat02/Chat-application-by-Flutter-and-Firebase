@@ -2,7 +2,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-typedef void IntCallback(int value);
+typedef IntCallback = void Function(int value);
 
 class CustomBottomNavigationBar extends StatefulWidget {
   final IntCallback callback;

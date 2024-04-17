@@ -1,15 +1,16 @@
-import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_page.dart';
 import 'package:chat_app_firebase_riverpod/providers/firebase_providers.dart';
+import 'package:chat_app_firebase_riverpod/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class MessagesBody extends ConsumerWidget {
   const MessagesBody({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chatState = ref.watch(firebaseFirestoreStateProvier);
-    final authUser = ref.watch(firebaseAuthInstanceProvider);
+    final chatState = ref.watch(firestoreStateProvider);
+    final authUser = ref.watch(authInstanceProvider);
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
@@ -23,11 +24,11 @@ class MessagesBody extends ConsumerWidget {
               final data = dataList[index].data();
               if (authUser!.email != data['email']) {
                 return GestureDetector(
-                  onTap: () => Navigator.of(context)
-                      .pushNamed(ChatPage.routeName, arguments: {
+                  onTap: () => context.pushNamed(chatRoute, pathParameters: {
+                    'userId': data['uid']
+                  }, extra: {
                     'userName': data['firstName'],
-                    'userEmail': data['email'],
-                    'userId': data['uid'],
+                    'userEmail': data['email']
                   }),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

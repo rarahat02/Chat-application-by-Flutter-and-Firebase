@@ -3,6 +3,7 @@ import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_control
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterCard extends ConsumerStatefulWidget {
   const RegisterCard({super.key});
@@ -54,7 +55,7 @@ class _RegisterCardState extends ConsumerState<RegisterCard> {
           content: Text(next.error),
         ));
       } else if (next is AuthStateSuccess) {
-        Navigator.of(context).pop();
+        context.pop();
       }
     });
     final size = MediaQuery.of(context).size;

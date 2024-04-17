@@ -3,6 +3,7 @@ import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_control
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginCard extends ConsumerStatefulWidget {
   const LoginCard({
@@ -15,7 +16,7 @@ class LoginCard extends ConsumerStatefulWidget {
 
 class _LoginCardState extends ConsumerState<LoginCard> {
   final _emailController = TextEditingController();
-  final _paswordController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   final _emailFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
@@ -24,12 +25,11 @@ class _LoginCardState extends ConsumerState<LoginCard> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     _emailController.dispose();
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
-    _paswordController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   void handleSubmit(String email, String password) {
@@ -45,14 +45,13 @@ class _LoginCardState extends ConsumerState<LoginCard> {
 
   @override
   Widget build(BuildContext context) {
-    // relese the page if the state is successful
     ref.listen<AuthState>(authControllerProvider, (previous, next) {
       if (next is AuthStateError) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(next.error),
         ));
       } else if (next is AuthStateSuccess) {
-        Navigator.of(context).pop();
+        context.pop();
       }
     });
 
@@ -90,7 +89,7 @@ class _LoginCardState extends ConsumerState<LoginCard> {
                         },
                       ),
                       TextFormField(
-                        controller: _paswordController,
+                        controller: _passwordController,
                         decoration: const InputDecoration(
                             labelText: 'Password',
                             labelStyle:
@@ -101,7 +100,7 @@ class _LoginCardState extends ConsumerState<LoginCard> {
                         textInputAction: TextInputAction.done,
                         onFieldSubmitted: (_) {
                           handleSubmit(
-                              _emailController.text, _paswordController.text);
+                              _emailController.text, _passwordController.text);
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -125,7 +124,7 @@ class _LoginCardState extends ConsumerState<LoginCard> {
                                 horizontal: size.width * 0.3, vertical: 10),
                           ),
                           onPressed: () => handleSubmit(
-                              _emailController.text, _paswordController.text),
+                              _emailController.text, _passwordController.text),
                           child: const Text(
                             'Log in',
                             style: TextStyle(

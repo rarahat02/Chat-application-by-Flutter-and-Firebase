@@ -1,7 +1,7 @@
 import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
-import 'package:chat_app_firebase_riverpod/features/auth/ui/login_screen.dart';
-import 'package:chat_app_firebase_riverpod/features/auth/ui/register_screen.dart';
+import 'package:chat_app_firebase_riverpod/routing/app_router.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 // import 'package:sentry_flutter/sentry_flutter.dart';
 
 class GetStartedScreen extends StatelessWidget {
@@ -26,8 +26,7 @@ class GetStartedScreen extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () async {
-                        Navigator.of(context)
-                            .pushNamed(RegisterScreen.routeName);
+                        context.pushNamed(AppRoute.register.name);
                         // try {
                         //   aMethodThatMightFail();
                         // } catch (exception, stackTrace) {
@@ -62,8 +61,7 @@ class GetStartedScreen extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(LoginScreen.routeName);
+                            context.pushNamed(AppRoute.login.name);
                           },
                           child: const Text(
                             'Log in',

@@ -14,8 +14,8 @@ class AuthController extends StateNotifier<AuthState> {
 
     try {
       await ref
-          .read(firebaseAuthServiceProvider)
-          .signInWithEmailandPassword(email, password);
+          .read(authServiceProvider)
+          .signInWithEmailPassword(email, password);
       state = const AuthStateSuccess();
     } catch (e) {
       state = AuthStateError(e.toString());
@@ -27,8 +27,8 @@ class AuthController extends StateNotifier<AuthState> {
 
     try {
       await ref
-          .read(firebaseAuthServiceProvider)
-          .signupWithEmailandPassword(name, email, password);
+          .read(authServiceProvider)
+          .signupWithEmailPassword(name, email, password);
       state = const AuthStateSuccess();
     } catch (e) {
       state = AuthStateError(e.toString());
@@ -36,7 +36,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   void signOut() async {
-    await ref.read(firebaseAuthServiceProvider).signOutUser();
+    await ref.read(authServiceProvider).signOutUser();
   }
 }
 

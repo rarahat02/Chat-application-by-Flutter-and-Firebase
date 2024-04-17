@@ -11,9 +11,7 @@ class ChatController extends StateNotifier<ChatState> {
     state = const ChatStateLoading();
 
     try {
-      await ref
-          .read(firebaseChatServiceProvider)
-          .sendMessage(receiverId, message);
+      await ref.read(chatServiceProvider).sendMessage(receiverId, message);
       state = const ChatStateSuccess();
     } catch (e) {
       state = ChatStateError(e.toString());

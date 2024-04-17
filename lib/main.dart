@@ -1,10 +1,6 @@
 // import 'package:chat_app_firebase_riverpod/screens/get_started_screen.dart';
 
-import 'package:chat_app_firebase_riverpod/features/auth/ui/auth_gate.dart';
-import 'package:chat_app_firebase_riverpod/features/auth/ui/login_screen.dart';
-import 'package:chat_app_firebase_riverpod/features/auth/ui/register_screen.dart';
-import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_page.dart';
-import 'package:chat_app_firebase_riverpod/features/home/ui/home_screen.dart';
+import 'package:chat_app_firebase_riverpod/routing/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,25 +25,28 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Chat-app-Firbase-Riverpod',
+  Widget build(BuildContext context, WidgetRef ref) {
+    final goRouter = ref.watch(goRouterProvider);
+
+    return MaterialApp.router(
+      routerConfig: goRouter,
+      debugShowCheckedModeBanner: false,
+      restorationScopeId: 'app',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Authgate(),
-      routes: {
-        LoginScreen.routeName: (context) => const LoginScreen(),
-        RegisterScreen.routeName: (context) => const RegisterScreen(),
-        HomeScreen.routeName: (context) => const HomeScreen(),
-        ChatPage.routeName: (context) => const ChatPage(),
-      },
+      // home: const Authgate(),
+      // routes: {
+      //   LoginScreen.routeName: (context) => const LoginScreen(),
+      //   RegisterScreen.routeName: (context) => const RegisterScreen(),
+      //   HomeScreen.routeName: (context) => const HomeScreen(),
+      //   ChatPage.routeName: (context) => const ChatPage(),
+      // },
     );
   }
 }
