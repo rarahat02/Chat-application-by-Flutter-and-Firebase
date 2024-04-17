@@ -1,4 +1,4 @@
-import 'package:chat_app_firebase_riverpod/features/home/ui/get_started_screen.dart';
+import 'package:chat_app_firebase_riverpod/features/auth/ui/get_started_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/home/ui/home_screen.dart';
 import 'package:chat_app_firebase_riverpod/providers/firebase_providers.dart';
 import 'package:flutter/material.dart';

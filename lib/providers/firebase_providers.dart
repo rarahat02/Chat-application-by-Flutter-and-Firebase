@@ -10,7 +10,7 @@ final firebaseAuthServiceProvider = Provider.autoDispose<AuthService>(
 final firebaseAuthStateProvider = StreamProvider.autoDispose<User?>(
     (ref) => ref.read(firebaseAuthServiceProvider).authStateChange);
 
-final firebasefirestoreStateProvier = StreamProvider.autoDispose(
+final firebaseFirestoreStateProvier = StreamProvider.autoDispose(
     (ref) => FirebaseFirestore.instance.collection('USER').snapshots());
 
 final firebaseAuthInstanceProvider =

@@ -1,8 +1,10 @@
+import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
 import 'package:chat_app_firebase_riverpod/features/chat/ui/messages_body.dart';
 import 'package:chat_app_firebase_riverpod/features/home/ui/custom_bottom_navigation_bar.dart';
-import 'package:chat_app_firebase_riverpod/features/home/ui/customappbar.dart';
 import 'package:chat_app_firebase_riverpod/features/notification/ui/notifications_body.dart';
 import 'package:flutter/material.dart';
+
+import 'customappbar.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/dashboard';
@@ -23,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: backgroundColor,
       appBar: const CustomAppBar(),
       bottomNavigationBar: CustomBottomNavigationBar(
         callback: (value) => setState(() {

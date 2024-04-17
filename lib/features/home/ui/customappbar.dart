@@ -1,3 +1,4 @@
+import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,18 +9,7 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
-      backgroundColor: Colors.transparent,
-      leading: IconButton(
-        onPressed: () {},
-        icon: const Icon(
-          Icons.search,
-          color: Colors.white,
-        ),
-      ),
-      title: const Text(
-        'Home',
-        style: TextStyle(color: Colors.white, fontSize: 20),
-      ),
+      backgroundColor: backgroundColor,
       primary: true,
       centerTitle: true,
       actions: [
@@ -53,6 +43,5 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
   }
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

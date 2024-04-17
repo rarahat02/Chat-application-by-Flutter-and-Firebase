@@ -8,68 +8,52 @@ class MessagesBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chatState = ref.watch(firebasefirestoreStateProvier);
+    final chatState = ref.watch(firebaseFirestoreStateProvier);
     final authUser = ref.watch(firebaseAuthInstanceProvider);
 
-    return Stack(
-      children: [
-        Positioned(
-          top: 60,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.7,
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40.0),
-                    topRight: Radius.circular(40.0))),
-            child: Center(
-                child: chatState.when(
-              data: (data) {
-                final dataList = data.docs;
-                return ListView.builder(
-                  itemCount: data.docs.length,
-                  itemBuilder: (context, index) {
-                    final data = dataList[index].data();
-                    if (authUser!.email != data['email']) {
-                      return GestureDetector(
-                        onTap: () => Navigator.of(context)
-                            .pushNamed(ChatPage.routeName, arguments: {
-                          'userName': data['firstName'],
-                          'userEmail': data['email'],
-                          'userId': data['uid'],
-                        }),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            ListTile(
-                              leading:
-                                  const CircleAvatar(child: Icon(Icons.person)),
-                              title: Text(data['email'].toString()),
-                              style: ListTileStyle.list,
-                            ),
-                            const Divider(),
-                          ],
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Center(
+          child: chatState.when(
+        data: (data) {
+          final dataList = data.docs;
+          return ListView.builder(
+            itemCount: data.docs.length,
+            itemBuilder: (context, index) {
+              final data = dataList[index].data();
+              if (authUser!.email != data['email']) {
+                return GestureDetector(
+                  onTap: () => Navigator.of(context)
+                      .pushNamed(ChatPage.routeName, arguments: {
+                    'userName': data['firstName'],
+                    'userEmail': data['email'],
+                    'userId': data['uid'],
+                  }),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ListTile(
+                        leading: const CircleAvatar(child: Icon(Icons.person)),
+                        title: Text(data['email'].toString()),
+                        style: ListTileStyle.list,
+                      ),
+                      const Divider(),
+                    ],
+                  ),
                 );
-              },
-              error: (error, stackTrace) {
-                return Text(error.toString());
-              },
-              loading: () => const CircularProgressIndicator(),
-            )),
-          ),
-        ),
-      ],
+              }
+              return const SizedBox();
+            },
+          );
+        },
+        error: (error, stackTrace) {
+          return Text(error.toString());
+        },
+        loading: () => const CircularProgressIndicator(),
+      )),
     );
   }
 }
