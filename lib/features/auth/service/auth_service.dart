@@ -1,3 +1,4 @@
+import 'package:chat_app_firebase_riverpod/features/auth/data/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -35,16 +36,15 @@ class AuthService {
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      final user = <String, dynamic>{
-        'uid': userCredential.user?.uid,
-        'firstName': name,
-        'email': userCredential.user?.email,
-      };
+      final user = UserModel(
+          uid: userCredential.user?.uid,
+          firstName: name,
+          email: userCredential.user?.email);
 
       await _firestore
           .collection('USER')
           .doc(userCredential.user?.uid)
-          .set(user);
+          .set(user.toMap());
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
