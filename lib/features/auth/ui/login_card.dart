@@ -37,8 +37,6 @@ class LoginCard extends HookConsumerWidget {
       }
     });
 
-    final size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Card(
         color: cardColor,
@@ -76,19 +74,20 @@ class LoginCard extends HookConsumerWidget {
                       : null,
                 ),
                 const SizedBox(height: 100),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade100, // Example color
-                    padding: EdgeInsets.symmetric(
-                        horizontal: size.width * 0.3, vertical: 10),
-                  ),
-                  onPressed: handleSubmit,
-                  child: const Text(
-                    'Log in',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black), // Example text style
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey.shade100, // Example color
+                    ),
+                    onPressed: handleSubmit,
+                    child: const Text(
+                      'Log in',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black), // Example text style
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),

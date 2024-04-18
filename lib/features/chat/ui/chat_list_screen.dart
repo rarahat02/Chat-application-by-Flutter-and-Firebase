@@ -1,3 +1,6 @@
+import 'package:chat_app_firebase_riverpod/common/widgets/responsive_center.dart';
+import 'package:chat_app_firebase_riverpod/constants/app_sizes.dart';
+import 'package:chat_app_firebase_riverpod/constants/breakpoints.dart';
 import 'package:chat_app_firebase_riverpod/features/chat/service/chat_service.dart';
 import 'package:chat_app_firebase_riverpod/routing/routes.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +15,9 @@ class ChatListScreen extends ConsumerWidget {
     final userCollectionState = ref.watch(userCollectionProvider);
     final currentUserState = ref.watch(currentUserProvider);
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+    return ResponsiveCenter(
+      maxContentWidth: Breakpoint.tablet,
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.p16),
       child: Center(
           child: userCollectionState.when(
         data: (data) {

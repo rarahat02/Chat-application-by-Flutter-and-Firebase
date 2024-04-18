@@ -1,7 +1,7 @@
 import 'package:chat_app_firebase_riverpod/constants/colors.dart';
 import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_list_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/home/ui/custom_bottom_navigation_bar.dart';
-import 'package:chat_app_firebase_riverpod/features/notification/ui/notifications_body.dart';
+import 'package:chat_app_firebase_riverpod/features/notification/ui/notification_list_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'custom_appbar.dart';
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List _screenBody = const [
     ChatListScreen(),
-    NotificationsBody(),
+    NotificationListScreen(),
   ];
 
   @override

@@ -45,8 +45,6 @@ class RegisterCard extends HookConsumerWidget {
       }
     });
 
-    final size = MediaQuery.of(context).size;
-
     return SingleChildScrollView(
       child: Card(
         color: cardColor,
@@ -110,8 +108,6 @@ class RegisterCard extends HookConsumerWidget {
                         focusNode: passwordFocusNode,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {
-                          // handleSubmit(
-                          //     _emailController.text, _paswordController.text);
                           FocusScope.of(context)
                               .requestFocus(confirmPasswordFocusNode);
                         },
@@ -152,20 +148,21 @@ class RegisterCard extends HookConsumerWidget {
                   SizedBox(
                     child: Column(
                       children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.grey.shade100,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: size.width * 0.3, vertical: 10),
-                          ),
-                          onPressed: () => handleSubmit(),
-                          child: const Text(
-                            'Create an account',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: textColor),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey.shade100,
+                            ),
+                            onPressed: () => handleSubmit(),
+                            child: const Text(
+                              'Create an account',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: textColor),
+                            ),
                           ),
                         ),
                         const SizedBox(

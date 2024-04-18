@@ -5,9 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChatService {
   final FirebaseAuth _firebaseAuth;
-  final FirebaseFirestore _firestore;
+  final FirebaseFirestore _fireStore;
 
-  ChatService(this._firebaseAuth, this._firestore);
+  ChatService(this._firebaseAuth, this._fireStore);
 
 // send message
   Future<void> sendMessage(String receiverId, String message) async {
@@ -31,7 +31,7 @@ class ChatService {
     ids.sort(); // sort ids (this make sure chatroom ids are same for any pair of users)
     String chatRoomId = ids.join("_");
 
-    await _firestore
+    await _fireStore
         .collection("CHAT_ROOMS")
         .doc(chatRoomId)
         .collection('messages')
@@ -43,7 +43,7 @@ class ChatService {
     ids.sort();
     final charRoomId = ids.join("_");
 
-    return _firestore
+    return _fireStore
         .collection("CHAT_ROOMS")
         .doc(charRoomId)
         .collection("messages")
