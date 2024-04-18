@@ -1,12 +1,10 @@
 import 'package:chat_app_firebase_riverpod/features/auth/data/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthService {
-  // instance of firebase auth
   final FirebaseAuth _firebaseAuth;
-
-  // instance of firestore auth
   final FirebaseFirestore _firestore;
 
   AuthService(this._firebaseAuth, this._firestore);
@@ -56,3 +54,9 @@ class AuthService {
     await _firebaseAuth.signOut();
   }
 }
+
+final authServiceProvider = Provider.autoDispose<AuthService>(
+    (ref) => AuthService(FirebaseAuth.instance, FirebaseFirestore.instance));
+
+final authStateProvider = StreamProvider<User?>(
+    (ref) => ref.read(authServiceProvider).authStateChange);

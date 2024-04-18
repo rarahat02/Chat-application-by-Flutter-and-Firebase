@@ -1,4 +1,4 @@
-import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
+import 'package:chat_app_firebase_riverpod/constants/colors.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

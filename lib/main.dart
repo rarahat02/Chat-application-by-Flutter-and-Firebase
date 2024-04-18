@@ -1,5 +1,3 @@
-// import 'package:chat_app_firebase_riverpod/screens/get_started_screen.dart';
-
 import 'package:chat_app_firebase_riverpod/routing/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +6,9 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'firebase_options.dart';
 
+const sentryDsn =
+    'https://bff964d7526e50fccf5341b31a26f46b@o4506332284387328.ingest.sentry.io/4506332289433600';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -15,8 +16,7 @@ Future<void> main() async {
   );
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://bff964d7526e50fccf5341b31a26f46b@o4506332284387328.ingest.sentry.io/4506332289433600';
+      options.dsn = sentryDsn;
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
       // We recommend adjusting this value in production.
       options.tracesSampleRate = 1.0;
@@ -40,13 +40,6 @@ class MyApp extends ConsumerWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      // home: const Authgate(),
-      // routes: {
-      //   LoginScreen.routeName: (context) => const LoginScreen(),
-      //   RegisterScreen.routeName: (context) => const RegisterScreen(),
-      //   HomeScreen.routeName: (context) => const HomeScreen(),
-      //   ChatPage.routeName: (context) => const ChatPage(),
-      // },
     );
   }
 }

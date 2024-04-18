@@ -1,4 +1,4 @@
-import 'package:chat_app_firebase_riverpod/providers/firebase_providers.dart';
+import 'package:chat_app_firebase_riverpod/features/chat/service/chat_service.dart';
 import 'package:chat_app_firebase_riverpod/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,20 +9,20 @@ class ChatListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final chatState = ref.watch(firestoreStateProvider);
-    final authUser = ref.watch(authInstanceProvider);
+    final userCollectionState = ref.watch(userCollectionProvider);
+    final currentUserState = ref.watch(currentUserProvider);
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Center(
-          child: chatState.when(
+          child: userCollectionState.when(
         data: (data) {
           final dataList = data.docs;
           return ListView.builder(
             itemCount: data.docs.length,
             itemBuilder: (context, index) {
               final data = dataList[index].data();
-              if (authUser!.email != data['email']) {
+              if (currentUserState!.email != data['email']) {
                 return GestureDetector(
                   onTap: () => context.pushNamed(chatRoute, pathParameters: {
                     'userId': data['uid']

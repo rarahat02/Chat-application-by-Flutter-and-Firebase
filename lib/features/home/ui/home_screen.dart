@@ -1,10 +1,10 @@
-import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
+import 'package:chat_app_firebase_riverpod/constants/colors.dart';
 import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_list_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/home/ui/custom_bottom_navigation_bar.dart';
 import 'package:chat_app_firebase_riverpod/features/notification/ui/notifications_body.dart';
 import 'package:flutter/material.dart';
 
-import 'customappbar.dart';
+import 'custom_appbar.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/dashboard';

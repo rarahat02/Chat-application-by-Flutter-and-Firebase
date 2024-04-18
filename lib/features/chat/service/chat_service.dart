@@ -1,12 +1,10 @@
 import 'package:chat_app_firebase_riverpod/features/chat/data/message.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChatService {
-  // instance of firebase auth
   final FirebaseAuth _firebaseAuth;
-
-  // instance of firestore auth
   final FirebaseFirestore _firestore;
 
   ChatService(this._firebaseAuth, this._firestore);
@@ -33,8 +31,6 @@ class ChatService {
     ids.sort(); // sort ids (this make sure chatroom ids are same for any pair of users)
     String chatRoomId = ids.join("_");
 
-    // add new message to db
-
     await _firestore
         .collection("CHAT_ROOMS")
         .doc(chatRoomId)
@@ -42,9 +38,7 @@ class ChatService {
         .add(newMessage.toMap());
   }
 
-  // get messages
   Stream<QuerySnapshot> getMessages(String userId, String otherUserId) {
-    // construct chat room id
     List<String> ids = [userId, otherUserId];
     ids.sort();
     final charRoomId = ids.join("_");
@@ -57,3 +51,12 @@ class ChatService {
         .snapshots();
   }
 }
+
+final chatServiceProvider = Provider.autoDispose(
+    (ref) => ChatService(FirebaseAuth.instance, FirebaseFirestore.instance));
+
+final userCollectionProvider = StreamProvider.autoDispose(
+    (ref) => FirebaseFirestore.instance.collection('USER').snapshots());
+
+final currentUserProvider =
+    Provider.autoDispose((ref) => FirebaseAuth.instance.currentUser);

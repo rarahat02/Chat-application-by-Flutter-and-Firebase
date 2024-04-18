@@ -1,5 +1,5 @@
 import 'package:chat_app_firebase_riverpod/features/chat/controller/chat_state.dart';
-import 'package:chat_app_firebase_riverpod/providers/firebase_providers.dart';
+import 'package:chat_app_firebase_riverpod/features/chat/service/chat_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChatController extends StateNotifier<ChatState> {

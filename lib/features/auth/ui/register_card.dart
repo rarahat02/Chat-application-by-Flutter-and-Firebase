@@ -1,4 +1,4 @@
-import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
+import 'package:chat_app_firebase_riverpod/constants/colors.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_controller.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_state.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +74,7 @@ class RegisterCard extends HookConsumerWidget {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'please Enter a name';
+                            return 'Please Enter a name';
                           }
                           return null;
                         },
@@ -94,7 +94,7 @@ class RegisterCard extends HookConsumerWidget {
                         },
                         validator: (value) {
                           if (value == null || !value.contains('@')) {
-                            return 'please Enter a valid email';
+                            return 'Please Enter a valid email';
                           }
                           return null;
                         },
@@ -117,7 +117,7 @@ class RegisterCard extends HookConsumerWidget {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'please Enter a valid password';
+                            return 'Please Enter a valid password';
                           }
                           return null;
                         },
@@ -136,10 +136,10 @@ class RegisterCard extends HookConsumerWidget {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'please Enter a valid password';
+                            return 'Please Enter a valid password';
                           }
                           if (value != passwordController.text) {
-                            return 'Invalid Password, please check again';
+                            return 'Invalid Password, Please check again';
                           }
                           return null;
                         },

@@ -1,4 +1,4 @@
-import 'package:chat_app_firebase_riverpod/common/ui/ui_utils.dart';
+import 'package:chat_app_firebase_riverpod/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsBody extends StatelessWidget {

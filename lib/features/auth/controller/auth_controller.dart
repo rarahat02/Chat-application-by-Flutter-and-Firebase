@@ -1,5 +1,5 @@
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_state.dart';
-import 'package:chat_app_firebase_riverpod/providers/firebase_providers.dart';
+import 'package:chat_app_firebase_riverpod/features/auth/service/auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthController extends StateNotifier<AuthState> {
