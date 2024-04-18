@@ -1,3 +1,4 @@
+import 'package:chat_app_firebase_riverpod/constants/app_sizes.dart';
 import 'package:chat_app_firebase_riverpod/constants/colors.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_controller.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_state.dart';
@@ -41,7 +42,7 @@ class LoginCard extends HookConsumerWidget {
       child: Card(
         color: cardColor,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(Sizes.p16),
           child: Form(
             key: formKey,
             child: Column(
@@ -64,7 +65,8 @@ class LoginCard extends HookConsumerWidget {
                   focusNode: passwordFocusNode,
                   decoration: const InputDecoration(
                       labelText: 'Password',
-                      labelStyle: TextStyle(fontSize: 16, color: Colors.green),
+                      labelStyle:
+                          TextStyle(fontSize: Sizes.p16, color: Colors.green),
                       hintText: 'Enter your Password'),
                   obscureText: true,
                   textInputAction: TextInputAction.done,
@@ -73,7 +75,7 @@ class LoginCard extends HookConsumerWidget {
                       ? 'Please enter a valid password'
                       : null,
                 ),
-                const SizedBox(height: 100),
+                gapH48,
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -84,18 +86,18 @@ class LoginCard extends HookConsumerWidget {
                     child: const Text(
                       'Log in',
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: Sizes.p16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black), // Example text style
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                gapH12,
                 const Text(
                   'Forgot password?',
                   style: TextStyle(
                       color: Colors.green,
-                      fontSize: 16,
+                      fontSize: Sizes.p16,
                       fontWeight: FontWeight.bold),
                 ),
               ],

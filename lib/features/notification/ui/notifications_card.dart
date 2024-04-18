@@ -1,10 +1,11 @@
+import 'package:chat_app_firebase_riverpod/constants/app_sizes.dart';
 import 'package:chat_app_firebase_riverpod/features/notification/service/notification_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NotificationsBody extends ConsumerWidget {
-  const NotificationsBody({super.key});
+class NotificationsCard extends ConsumerWidget {
+  const NotificationsCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +24,10 @@ class NotificationsBody extends ConsumerWidget {
         }
         return const Scaffold(
           body: Center(
-            child: Text('Listening for messages...'),
+            child: Text(
+              'No New Messages!',
+              style: TextStyle(fontSize: Sizes.p24),
+            ),
           ),
         );
       },

@@ -1,3 +1,4 @@
+import 'package:chat_app_firebase_riverpod/constants/app_sizes.dart';
 import 'package:chat_app_firebase_riverpod/constants/colors.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_controller.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/controller/auth_state.dart';
@@ -49,7 +50,7 @@ class RegisterCard extends HookConsumerWidget {
       child: Card(
         color: cardColor,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(Sizes.p16),
           child: Form(
               key: formKey,
               child: Column(
@@ -62,8 +63,8 @@ class RegisterCard extends HookConsumerWidget {
                         controller: nameController,
                         decoration: const InputDecoration(
                             labelText: 'Your name',
-                            labelStyle:
-                                TextStyle(fontSize: 16, color: Colors.green),
+                            labelStyle: TextStyle(
+                                fontSize: Sizes.p16, color: Colors.green),
                             hintText: 'Enter your Name'),
                         focusNode: nameFocusNode,
                         textInputAction: TextInputAction.next,
@@ -81,8 +82,8 @@ class RegisterCard extends HookConsumerWidget {
                         controller: emailController,
                         decoration: const InputDecoration(
                             labelText: 'Your Email',
-                            labelStyle:
-                                TextStyle(fontSize: 16, color: Colors.green),
+                            labelStyle: TextStyle(
+                                fontSize: Sizes.p16, color: Colors.green),
                             hintText: 'Enter your Email'),
                         focusNode: emailFocusNode,
                         textInputAction: TextInputAction.next,
@@ -101,8 +102,8 @@ class RegisterCard extends HookConsumerWidget {
                         controller: passwordController,
                         decoration: const InputDecoration(
                             labelText: 'Password',
-                            labelStyle:
-                                TextStyle(fontSize: 16, color: Colors.green),
+                            labelStyle: TextStyle(
+                                fontSize: Sizes.p16, color: Colors.green),
                             hintText: 'Enter your Password'),
                         obscureText: true,
                         focusNode: passwordFocusNode,
@@ -121,8 +122,8 @@ class RegisterCard extends HookConsumerWidget {
                       TextFormField(
                         decoration: const InputDecoration(
                             labelText: 'Confirm Password',
-                            labelStyle:
-                                TextStyle(fontSize: 16, color: Colors.green),
+                            labelStyle: TextStyle(
+                                fontSize: Sizes.p16, color: Colors.green),
                             hintText: 'Confirm Password'),
                         obscureText: true,
                         focusNode: confirmPasswordFocusNode,
@@ -142,9 +143,7 @@ class RegisterCard extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 100,
-                  ),
+                  gapH48,
                   SizedBox(
                     child: Column(
                       children: [
@@ -159,7 +158,7 @@ class RegisterCard extends HookConsumerWidget {
                               'Create an account',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: Sizes.p16,
                                   fontWeight: FontWeight.bold,
                                   color: textColor),
                             ),
@@ -172,11 +171,11 @@ class RegisterCard extends HookConsumerWidget {
                           'Forgot password?',
                           style: TextStyle(
                               color: Colors.green,
-                              fontSize: 16,
+                              fontSize: Sizes.p16,
                               fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: Sizes.p16,
                         ),
                       ],
                     ),

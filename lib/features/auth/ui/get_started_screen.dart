@@ -8,8 +8,6 @@ import 'package:go_router/go_router.dart';
 // import 'package:sentry_flutter/sentry_flutter.dart';
 
 class GetStartedScreen extends StatelessWidget {
-  static const routeName = '/get-started';
-
   const GetStartedScreen({super.key});
 
   @override
@@ -23,7 +21,7 @@ class GetStartedScreen extends StatelessWidget {
           child: Card(
             color: cardColor,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(Sizes.p16),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -40,9 +38,7 @@ class GetStartedScreen extends StatelessWidget {
                       // }
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: backgroundColor,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 60, vertical: 10)),
+                        backgroundColor: backgroundColor),
                     child: const Text(
                       'Sign up with mail',
                       style: TextStyle(
@@ -50,18 +46,16 @@ class GetStartedScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(
-                    height: 15,
+                    height: Sizes.p16,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
                         'Existing account?',
-                        style: TextStyle(fontSize: 16, color: textColor),
+                        style: TextStyle(fontSize: Sizes.p16, color: textColor),
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
+                      gapW12,
                       GestureDetector(
                         onTap: () {
                           context.pushNamed(AppRoute.login.name);
@@ -74,9 +68,7 @@ class GetStartedScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  )
+                  gapH20
                 ],
               ),
             ),

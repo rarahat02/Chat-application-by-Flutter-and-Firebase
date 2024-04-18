@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'custom_appbar.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const routeName = '/dashboard';
   const HomeScreen({super.key});
 
   @override

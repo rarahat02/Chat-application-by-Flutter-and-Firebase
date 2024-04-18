@@ -6,8 +6,6 @@ import 'package:chat_app_firebase_riverpod/features/auth/ui/register_card.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
-  static const routeName = '/register';
-
   const RegisterScreen({super.key});
 
   @override
