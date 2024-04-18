@@ -1,3 +1,4 @@
+import 'package:chat_app_firebase_riverpod/constants/db_collections.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/data/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth;
-  final FirebaseFirestore _firestore;
+  final FirebaseFirestore _fireStore;
 
-  AuthService(this._firebaseAuth, this._firestore);
+  AuthService(this._firebaseAuth, this._fireStore);
 
   Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
 
@@ -16,13 +17,11 @@ class AuthService {
     String password,
   ) async {
     try {
-      // signin
       UserCredential userCredentials = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
 
       return userCredentials;
     } on FirebaseAuthException catch (e) {
-      // catch errors related to firebase login
       throw Exception(e.code);
     }
   }
@@ -38,8 +37,8 @@ class AuthService {
           firstName: name,
           email: userCredential.user?.email);
 
-      await _firestore
-          .collection('USER')
+      await _fireStore
+          .collection(Db.user)
           .doc(userCredential.user?.uid)
           .set(user.toMap());
 
@@ -49,7 +48,6 @@ class AuthService {
     }
   }
 
-  // sign out method
   Future<void> signOutUser() async {
     await _firebaseAuth.signOut();
   }
