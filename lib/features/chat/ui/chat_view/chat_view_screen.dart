@@ -2,6 +2,7 @@ import 'package:chat_app_firebase_riverpod/common/widgets/responsive_center.dart
 import 'package:chat_app_firebase_riverpod/constants/breakpoints.dart';
 import 'package:chat_app_firebase_riverpod/features/chat/controller/chat_controller.dart';
 import 'package:chat_app_firebase_riverpod/features/chat/service/chat_service.dart';
+import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_view/app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,21 +40,7 @@ class ChatViewScreen extends HookConsumerWidget {
     }, [messageController, userId]);
 
     return Scaffold(
-      appBar: AppBar(
-        title: ListTile(
-          leading: const CircleAvatar(
-            child: Icon(Icons.person),
-          ),
-          title: Text(userName,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          subtitle: Text(userEmail),
-        ),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.call)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.video_call)),
-        ],
-      ),
+      appBar: getChatViewAppbar(userName, userEmail),
       body: ResponsiveCenter(
         maxContentWidth: Breakpoint.tablet,
         child: Column(

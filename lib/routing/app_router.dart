@@ -2,7 +2,7 @@ import 'package:chat_app_firebase_riverpod/features/auth/service/auth_service.da
 import 'package:chat_app_firebase_riverpod/features/auth/ui/get_started_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/ui/login_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/auth/ui/register_screen.dart';
-import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_view_screen.dart';
+import 'package:chat_app_firebase_riverpod/features/chat/ui/chat_view/chat_view_screen.dart';
 import 'package:chat_app_firebase_riverpod/features/home/ui/home_screen.dart';
 import 'package:chat_app_firebase_riverpod/routing/routes.dart';
 import 'package:flutter/material.dart';

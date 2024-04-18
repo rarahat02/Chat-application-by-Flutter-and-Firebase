@@ -10,6 +10,32 @@ class ChatService {
 
   ChatService(this._firebaseAuth, this._fireStore);
 
+  Future<String> createChatRoom(List<String> memberIds) async {
+    DocumentReference chatRoomRef =
+        await _fireStore.collection(Db.chatRoom).add({
+      'created': Timestamp.now(),
+    });
+
+    for (String memberId in memberIds) {
+      addUserToChatRoom(memberId, chatRoomRef.id);
+    }
+
+    return chatRoomRef.id;
+  }
+
+  Future<void> joinChatRoom(String userId, String chatRoomId) async {
+    addUserToChatRoom(userId, chatRoomId);
+  }
+
+  Future<void> addUserToChatRoom(String userId, String chatRoomId) async {
+    await _fireStore
+        .collection(Db.user)
+        .doc(userId)
+        .collection(Db.chatRoom)
+        .doc(chatRoomId)
+        .set({'joined': Timestamp.now()});
+  }
+
   Future<void> sendMessage(String receiverId, String message) async {
     final String currentUserId = _firebaseAuth.currentUser!.uid;
     final String currentUserEmail = _firebaseAuth.currentUser!.email.toString();
@@ -32,6 +58,8 @@ class ChatService {
         .doc(chatRoomId)
         .collection(Db.message)
         .add(newMessage.toMap());
+
+    joinChatRoom(currentUserId, chatRoomId);
   }
 
   Stream<QuerySnapshot> getMessages(String userId, String otherUserId) {

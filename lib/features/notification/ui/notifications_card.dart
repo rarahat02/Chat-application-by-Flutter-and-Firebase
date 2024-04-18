@@ -25,7 +25,7 @@ class NotificationsCard extends ConsumerWidget {
         return const Scaffold(
           body: Center(
             child: Text(
-              'No New Messages!',
+              'No New Notifications!',
               style: TextStyle(fontSize: Sizes.p24),
             ),
           ),

@@ -28,12 +28,14 @@ class ChatListScreen extends ConsumerWidget {
               final data = dataList[index].data();
               if (currentUserState!.email != data['email']) {
                 return GestureDetector(
-                  onTap: () => context.pushNamed(chatRoute, pathParameters: {
-                    'userId': data['uid']
-                  }, extra: {
-                    'userName': data['firstName'],
-                    'userEmail': data['email']
-                  }),
+                  onTap: () {
+                    context.pushNamed(chatRoute, pathParameters: {
+                      'userId': data['uid']
+                    }, extra: {
+                      'userName': data['firstName'],
+                      'userEmail': data['email']
+                    });
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
