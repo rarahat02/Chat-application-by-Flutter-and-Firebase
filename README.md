@@ -29,6 +29,10 @@ Android
 #### Supported Device Orientation
 Portrait and Lanscape
 
+
+## Want to see a demo?
+Here is the demo [Google Drive](https://drive.google.com/file/d/1H4tSIg6vz-yHnZbYDSOD5-c2iIqTgAbD/view) link for Android.
+
 #### Out of Scope
 - CI/CD
 - Localization
